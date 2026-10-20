@@ -1,0 +1,99 @@
+
+digraph CollegeInternshipTracker {
+    graph [
+        rankdir=LR,
+        label="College Internship Application Tracker - Logical ERD",
+        labelloc=t,
+        fontsize=18,
+        nodesep=0.6,
+        ranksep=1.0
+    ];
+
+    node [shape=plain, fontname="Arial"];
+    edge [fontname="Arial", fontsize=10, dir=both, arrowhead=none];
+
+    STUDENTS [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>STUDENTS</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> student_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">student_name VARCHAR(100)</TD></TR>
+            <TR><TD ALIGN="LEFT">email VARCHAR(255) UNIQUE</TD></TR>
+            <TR><TD ALIGN="LEFT">major VARCHAR(100)</TD></TR>
+            <TR><TD ALIGN="LEFT">graduation_year YEAR</TD></TR>
+        </TABLE>
+    >];
+
+    COMPANIES [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>COMPANIES</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> company_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">company_name VARCHAR(150)</TD></TR>
+            <TR><TD ALIGN="LEFT">industry VARCHAR(100)</TD></TR>
+            <TR><TD ALIGN="LEFT">location VARCHAR(150)</TD></TR>
+            <TR><TD ALIGN="LEFT">company_website VARCHAR(255)</TD></TR>
+        </TABLE>
+    >];
+
+    INTERNSHIP_TYPE [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>INTERNSHIP_TYPE</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> type_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">type_name VARCHAR(50)</TD></TR>
+            <TR><TD ALIGN="LEFT">type_description VARCHAR(255)</TD></TR>
+        </TABLE>
+    >];
+
+    APPLICATION_STATUS [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>APPLICATION_STATUS</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> status_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">status_name VARCHAR(50)</TD></TR>
+            <TR><TD ALIGN="LEFT">status_description VARCHAR(255)</TD></TR>
+        </TABLE>
+    >];
+
+    POSITIONS [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>POSITIONS</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> position_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> company_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> type_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">position_title VARCHAR(150)</TD></TR>
+            <TR><TD ALIGN="LEFT">description TEXT</TD></TR>
+            <TR><TD ALIGN="LEFT">location VARCHAR(150)</TD></TR>
+            <TR><TD ALIGN="LEFT">application_deadline DATE</TD></TR>
+        </TABLE>
+    >];
+
+    APPLICATIONS [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>APPLICATIONS</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> application_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> student_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> position_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> status_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">application_date DATE</TD></TR>
+            <TR><TD ALIGN="LEFT">notes TEXT</TD></TR>
+        </TABLE>
+    >];
+
+    INTERVIEWS [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6">
+            <TR><TD BGCOLOR="lightblue"><B>INTERVIEWS</B></TD></TR>
+            <TR><TD ALIGN="LEFT"><B>PK</B> interview_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT"><B>FK</B> application_id INT</TD></TR>
+            <TR><TD ALIGN="LEFT">interview_date DATETIME</TD></TR>
+            <TR><TD ALIGN="LEFT">interview_type VARCHAR(50)</TD></TR>
+            <TR><TD ALIGN="LEFT">interview_location VARCHAR(150)</TD></TR>
+            <TR><TD ALIGN="LEFT">interview_status VARCHAR(50)</TD></TR>
+            <TR><TD ALIGN="LEFT">notes TEXT</TD></TR>
+        </TABLE>
+    >];
+
+    STUDENTS -> APPLICATIONS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+    COMPANIES -> POSITIONS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+    INTERNSHIP_TYPE -> POSITIONS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+    POSITIONS -> APPLICATIONS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+    APPLICATION_STATUS -> APPLICATIONS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+    APPLICATIONS -> INTERVIEWS [label=" 1 to 0..many", arrowtail=teecrow, arrowhead=crow];
+}
