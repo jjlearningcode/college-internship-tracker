@@ -1,89 +1,91 @@
 # College Internship Application Tracker
 ## Data Dictionary
 
-### STUDENTS
+### 1. STUDENTS
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| STUDENTS | student_id | INT AUTO_INCREMENT | PK | No | Unique student identifier |
-| STUDENTS | student_name | VARCHAR(100) | | No | Student's full name |
-| STUDENTS | email | VARCHAR(255) | UNIQUE | No | Student's unique email address |
-| STUDENTS | major | VARCHAR(100) | | No | Student's academic major |
-| STUDENTS | graduation_year | YEAR | | No | Student's expected graduation year |
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| student_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique student ID |
+| student_name | VARCHAR(100) | NOT NULL | Student's full name |
+| email | VARCHAR(255) | NOT NULL, UNIQUE | Student's email |
+| major | VARCHAR(100) | NOT NULL | Student's major |
+| graduation_year | YEAR | NOT NULL | Expected graduation year |
 
-### COMPANIES
+### 2. COMPANIES
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| COMPANIES | company_id | INT AUTO_INCREMENT | PK | No | Unique company identifier |
-| COMPANIES | company_name | VARCHAR(150) | | No | Name of the company |
-| COMPANIES | industry | VARCHAR(100) | | No | Company's industry |
-| COMPANIES | location | VARCHAR(150) | | No | Company's location |
-| COMPANIES | company_website | VARCHAR(255) | | Yes | Company's website URL |
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| company_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique company ID |
+| company_name | VARCHAR(150) | NOT NULL | Company name |
+| industry | VARCHAR(100) | NOT NULL | Company's industry |
+| location | VARCHAR(150) | NOT NULL | Company's location |
+| company_website | VARCHAR(255) | NULL | Company's website |
 
-### INTERNSHIP_TYPE
+### 3. INTERNSHIP_TYPE
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| INTERNSHIP_TYPE | type_id | INT AUTO_INCREMENT | PK | No | Unique internship type identifier |
-| INTERNSHIP_TYPE | type_name | VARCHAR(50) | | No | Name of the internship type |
-| INTERNSHIP_TYPE | type_description | VARCHAR(255) | | Yes | Description of the internship type |
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| type_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique internship type ID |
+| type_name | VARCHAR(50) | NOT NULL | Internship type name |
+| type_description | VARCHAR(255) | NULL | Description of the internship type |
 
-### APPLICATION_STATUS
+### 4. APPLICATION_STATUS
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| APPLICATION_STATUS | status_id | INT AUTO_INCREMENT | PK | No | Unique application status identifier |
-| APPLICATION_STATUS | status_name | VARCHAR(50) | | No | Name of the application status |
-| APPLICATION_STATUS | status_description | VARCHAR(255) | | Yes | Description of the status |
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| status_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique application status ID |
+| status_name | VARCHAR(50) | NOT NULL | Application status name |
+| status_description | VARCHAR(255) | NULL | Description of the status |
 
-### POSITIONS
+### 5. POSITIONS
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| POSITIONS | position_id | INT AUTO_INCREMENT | PK | No | Unique internship position identifier |
-| POSITIONS | company_id | INT | FK | No | Company offering the position |
-| POSITIONS | type_id | INT | FK | No | Type of internship |
-| POSITIONS | position_title | VARCHAR(150) | | No | Title of the internship position |
-| POSITIONS | description | TEXT | | Yes | Details about the position |
-| POSITIONS | location | VARCHAR(150) | | No | Location of the internship |
-| POSITIONS | application_deadline | DATE | | No | Deadline to apply for the position |
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| position_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique position ID |
+| company_id | INT | NOT NULL, FOREIGN KEY | Company offering the position |
+| type_id | INT | NOT NULL, FOREIGN KEY | Internship type |
+| position_title | VARCHAR(150) | NOT NULL | Position title |
+| description | TEXT | NULL | Position description |
+| location | VARCHAR(150) | NOT NULL | Position location |
+| application_deadline | DATE | NOT NULL | Application deadline |
 
-### APPLICATIONS
+### 6. APPLICATIONS
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| APPLICATIONS | application_id | INT AUTO_INCREMENT | PK | No | Unique application identifier |
-| APPLICATIONS | student_id | INT | FK | No | Student who submitted the application |
-| APPLICATIONS | position_id | INT | FK | No | Position being applied for |
-| APPLICATIONS | status_id | INT | FK | No | Current status of the application |
-| APPLICATIONS | application_date | DATE | | No | Date the application was submitted |
-| APPLICATIONS | notes | TEXT | | Yes | Additional application notes | 
-### INTERVIEWS
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| application_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique application ID |
+| student_id | INT | NOT NULL, FOREIGN KEY | Student who applied |
+| position_id | INT | NOT NULL, FOREIGN KEY | Position applied for |
+| status_id | INT | NOT NULL, FOREIGN KEY | Current application status |
+| application_date | DATE | NOT NULL | Date the application was submitted |
+| notes | TEXT | NULL | Additional application notes |
 
-| Table | Column | Type | Key | NULL | Description |
-|---|---|---|---|---|---|
-| INTERVIEWS | interview_id | INT AUTO_INCREMENT | PK | No | Unique interview identifier |
-| INTERVIEWS | application_id | INT | FK | No | Application associated with the interview |
-| INTERVIEWS | interview_date | DATETIME | | No | Date and time of the interview |
-| INTERVIEWS | interview_type | VARCHAR(50) | | No | Type of interview |
-| INTERVIEWS | interview_location | VARCHAR(150) | | Yes | Location of the interview |
-| INTERVIEWS | interview_status | VARCHAR(50) | | No | Current status of the interview |
-| INTERVIEWS | notes | TEXT | | Yes | Additional interview notes |
+### 7. INTERVIEWS
+
+| Field | Data Type | Constraints | Description |
+|---|---|---|---|
+| interview_id | INT | PRIMARY KEY, AUTO_INCREMENT | Unique interview ID |
+| application_id | INT | NOT NULL, FOREIGN KEY | Related application |
+| interview_date | DATETIME | NOT NULL | Date and time of the interview |
+| interview_type | VARCHAR(50) | NOT NULL | Type of interview |
+| interview_location | VARCHAR(150) | NULL | Interview location |
+| interview_status | VARCHAR(50) | NOT NULL | Current interview status |
+| notes | TEXT | NULL | Additional interview notes |
 
 ## Foreign Key References
 
-- POSITIONS.company_id references COMPANIES.company_id.
-- POSITIONS.type_id references INTERNSHIP_TYPE.type_id.
-- APPLICATIONS.student_id references STUDENTS.student_id.
-- APPLICATIONS.position_id references POSITIONS.position_id.
-- APPLICATIONS.status_id references APPLICATION_STATUS.status_id.
-- INTERVIEWS.application_id references APPLICATIONS.application_id.
+- POSITIONS.company_id references COMPANIES.company_id
+- POSITIONS.type_id references INTERNSHIP_TYPE.type_id
+- APPLICATIONS.student_id references STUDENTS.student_id
+- APPLICATIONS.position_id references POSITIONS.position_id
+- APPLICATIONS.status_id references APPLICATION_STATUS.status_id
+- INTERVIEWS.application_id references APPLICATIONS.application_id
 
 ## Key Definitions
 
-- PK: Primary Key
-- FK: Foreign Key
-- UNIQUE: Values must be unique
-- NULL: The column may contain a NULL value
-- NOT NULL: The column must contain a value
+- PRIMARY KEY: Uniquely identifies each record.
+- FOREIGN KEY: Connects records between related tables.
+- AUTO_INCREMENT: Automatically generates a new integer ID.
+- UNIQUE: Prevents duplicate values.
+- NOT NULL: Requires a value.
+- NULL: Allows a value to be empty.
