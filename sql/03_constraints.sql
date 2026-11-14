@@ -1,0 +1,54 @@
+
+-- Milestone 5: Database Constraints
+-- College Internship Application Tracker
+
+USE college_internship_tracker;
+
+-- 1. UNIQUE constraint for student email
+ALTER TABLE STUDENTS
+ADD CONSTRAINT uq_students_email UNIQUE (email);
+
+-- 2. POSITIONS foreign keys
+ALTER TABLE POSITIONS
+ADD CONSTRAINT fk_positions_company
+FOREIGN KEY (company_id)
+REFERENCES COMPANIES(company_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+ALTER TABLE POSITIONS
+ADD CONSTRAINT fk_positions_type
+FOREIGN KEY (type_id)
+REFERENCES INTERNSHIP_TYPE(type_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+-- 3. APPLICATIONS foreign keys
+ALTER TABLE APPLICATIONS
+ADD CONSTRAINT fk_applications_student
+FOREIGN KEY (student_id)
+REFERENCES STUDENTS(student_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+ALTER TABLE APPLICATIONS
+ADD CONSTRAINT fk_applications_position
+FOREIGN KEY (position_id)
+REFERENCES POSITIONS(position_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+ALTER TABLE APPLICATIONS
+ADD CONSTRAINT fk_applications_status
+FOREIGN KEY (status_id)
+REFERENCES APPLICATION_STATUS(status_id)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+-- 4. INTERVIEWS foreign key
+ALTER TABLE INTERVIEWS
+ADD CONSTRAINT fk_interviews_application
+FOREIGN KEY (application_id)
+REFERENCES APPLICATIONS(application_id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
